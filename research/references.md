@@ -1,8 +1,8 @@
 # References
 
 Companion citation list for `clo_methodology_change_2026.ipynb`. Items (1)-(4)
-are primary sources: obtain via the registered agency portal (or SEC EDGAR
-for the NRSRO exhibit); do not scrape.
+and (8) are primary sources: obtain via the registered agency portal (or SEC
+EDGAR for the NRSRO exhibit); do not scrape.
 
 1. Moody's, *Global Approach to Rating Collateralized Loan Obligations*,
    Apr 24, 2026. **Primary — obtain via registered Moody's portal; do not
@@ -37,6 +37,22 @@ for the NRSRO exhibit); do not scrape.
    on realized tranche and equity performance, referenced in the desk-impact
    synthesis in Section 6.
 
+8. S&P, *Global Methodology and Assumptions for CLOs and Corporate CDOs*,
+   Jun 21, 2019. **Primary — obtain via registered S&P RatingsDirect portal;
+   do not scrape.**
+
+9. S&P, *CLO Spotlight: All You Need to Know About CDO Monitor*, Mar 2020 —
+   source for the CDO Monitor (CDOM) reinvestment-test mechanics described in
+   Section 2.4.
+
+10. S&P, CDO Suite of Models product documentation (CDO Evaluator, Cash Flow
+    Evaluator, CDO Monitor) — reference for the SDR/BDR mechanics described in
+    Section 2.4 and the copula engine framing in Section 3b.
+
+11. S&P, earlier Request for Comment describing rating-quantile calibration
+    for CDO Evaluator (e.g. the 1.829% SDR quantile example) — referenced in
+    Section 2.4.
+
 ## Notes on sourcing status
 
 - Items (1)-(4) are the primary criteria/RfC texts. As of this notebook's
@@ -52,3 +68,10 @@ for the NRSRO exhibit); do not scrape.
   impact estimate) were not itemized in public commentary as of this
   notebook's date and are not sourced here; Section 5 of the notebook
   documents the comparison harness to apply once the redline is available.
+- S&P's current global CLO criteria (item 8) date to Jun 21, 2019; no 2026
+  update was identified in public sources as of this notebook's date. This
+  is stated in Section 2.4 as "no update identified — confirm with desk /
+  RatingsDirect" and tagged TO-VERIFY; if confirmed, S&P functions as the
+  notebook's control group. Specific S&P correlation and recovery-tier
+  values (item 8's appendices) are not reproduced here and are tagged
+  TO-VERIFY wherever the notebook references them.
