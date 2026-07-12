@@ -128,19 +128,12 @@ def save_figure(fig, name: str, headline: str, subtitle: str = "", source: str =
     panel_title_in = 0.28 if panel_titles else 0.0
     header_in = 0.18 + headline_block_in + subtitle_block_in + panel_title_in
 
-    # SOURCE (bottom-left) and byline (bottom-right) normally share one row;
-    # if their estimated widths would overlap on this fig_w, stack the byline
-    # on its own line above the source line instead of colliding mid-row.
     source_text = f"SOURCE: {source.upper()}" if source else ""
     dateline = _dt.date.today().isoformat()
     byline_text = f"{BYLINE} · {dateline}"
-    char_w_in = 0.055  # ~7pt Arial average glyph width, inches
-    stack_footer_line = bool(source) and (
-        len(source_text) * char_w_in + len(byline_text) * char_w_in + 0.3 > fig_w - 0.04
-    )
 
     xlabel_clear_in = 0.34   # room for the axes' own x-axis label + tick labels
-    source_row_in = 0.36 if stack_footer_line else 0.20
+    source_row_in = 0.20
     notes_block_in = 0.17 * notes_lines
     footer_in = xlabel_clear_in + notes_block_in + source_row_in
 
@@ -152,13 +145,29 @@ def save_figure(fig, name: str, headline: str, subtitle: str = "", source: str =
     if subtitle:
         fig.text(0.02, 1 - ((0.18 + headline_block_in) / fig_h), subtitle, fontsize=9.5, color=INK_MUTED, ha="left", va="top", wrap=True)
 
+    # SOURCE (bottom-left) and byline (bottom-right) normally share one row. A
+    # char-count heuristic for whether they'd overlap is fragile (uppercase
+    # glyphs run wider than a flat average), so measure the actual rendered
+    # text extents after a draw pass and reposition for real if they collide.
     source_y_in = 0.09
+    source_artist = None
     if source:
-        fig.text(0.02, source_y_in / fig_h, source_text, fontsize=7, color=INK_MUTED, ha="left", va="bottom")
-    byline_y_in = (source_y_in + 0.16) if stack_footer_line else source_y_in
-    fig.text(0.98, byline_y_in / fig_h, byline_text, fontsize=7, color=INK_MUTED, ha="right", va="bottom")
+        source_artist = fig.text(0.02, source_y_in / fig_h, source_text, fontsize=7, color=INK_MUTED, ha="left", va="bottom")
+    byline_artist = fig.text(0.98, source_y_in / fig_h, byline_text, fontsize=7, color=INK_MUTED, ha="right", va="bottom")
+
+    if source_artist is not None:
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        src_bbox = source_artist.get_window_extent(renderer)
+        byl_bbox = byline_artist.get_window_extent(renderer)
+        gap_px = byl_bbox.x0 - src_bbox.x1
+        if gap_px < 10:  # too close / overlapping — stack byline above source
+            byline_artist.set_position((0.98, (source_y_in + 0.16) / fig_h))
+            footer_in += 0.16
+            fig.subplots_adjust(bottom=footer_in / fig_h)
+
     if notes:
-        notes_y_in = source_row_in + 0.06
+        notes_y_in = footer_in - xlabel_clear_in - notes_block_in + 0.06
         fig.text(0.02, notes_y_in / fig_h, notes, fontsize=6.5, color=INK_MUTED, ha="left", va="bottom", style="italic", wrap=True)
 
     png_path = fig_dir / f"{name}.png"
