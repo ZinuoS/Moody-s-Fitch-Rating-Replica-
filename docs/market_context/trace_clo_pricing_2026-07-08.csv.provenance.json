@@ -1,0 +1,15 @@
+{
+  "reused_from": "clo-atlas repo (git@github.com:ZinuoS/CLO_Atlas.git), data/interim/trace_clo_pricing.parquet",
+  "original_provenance": {
+    "source_urls": [
+      "https://cdn.finra.org/trace/FINRA_IDS_PXTABLES.xlsx"
+    ],
+    "scrape_timestamp": "2026-07-09T02:46:40.375538+00:00",
+    "parser": "src.official.scrape_trace",
+    "parser_version": "0.1.0",
+    "row_count": 166,
+    "notes": "Same-day snapshot; history accretes from repeated runs.",
+    "written_at": "2026-07-09T02:46:40Z"
+  },
+  "note": "Single-day snapshot as of 2026-07-08; clo-atlas TRACE scraper had run once as of this export. Not a time series -- cannot support a before/after-announcement comparison yet."
+}

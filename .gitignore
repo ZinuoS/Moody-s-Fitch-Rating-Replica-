@@ -1,0 +1,6 @@
+# gitignored per clo-atlas convention: generated figures are reproducible from the notebook
+research/figures/*.png
+research/figures/*.svg
+.ipynb_checkpoints/
+__pycache__/
+*.pyc

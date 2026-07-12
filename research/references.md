@@ -53,6 +53,13 @@ EDGAR for the NRSRO exhibit); do not scrape.
     for CDO Evaluator (e.g. the 1.829% SDR quantile example) — referenced in
     Section 2.4.
 
+12. FINRA, CLO secondary-market pricing tables (`cdn.finra.org/trace/FINRA_IDS_PXTABLES.xlsx`),
+    scraped via the companion clo-atlas project's `src/official/scrape_trace.py`
+    (`git@github.com:ZinuoS/CLO_Atlas.git`), 2026-07-08 snapshot. Public, unlicensed,
+    no "do not scrape" restriction — used in Section 7 as a real-data anchor for the
+    notebook's illustrative spread assumptions. See `data_reuse_assessment.md` for the
+    full recheck of what clo-atlas data can and cannot feed into this notebook.
+
 ## Notes on sourcing status
 
 - Items (1)-(4) are the primary criteria/RfC texts. As of this notebook's
@@ -75,3 +82,8 @@ EDGAR for the NRSRO exhibit); do not scrape.
   notebook's control group. Specific S&P correlation and recovery-tier
   values (item 8's appendices) are not reproduced here and are tagged
   TO-VERIFY wherever the notebook references them.
+- Item 12 (FINRA TRACE, via clo-atlas) is real, current data, not commentary
+  or a placeholder — it is a single-day snapshot, so it anchors Section 7's
+  spread context but does not yet test methodology impact against realized
+  pricing. See `data_reuse_assessment.md` for the full check of which
+  clo-atlas outputs can and cannot feed this notebook's engines.
